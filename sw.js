@@ -1,4 +1,4 @@
-const CACHE_NAME = 'carpeta-virtual-v5';
+const CACHE_NAME = 'carpeta-virtual-v6'; // <-- Recuerda subir la versión
 
 const ARCHIVOS_OFFLINE = [
   './',
@@ -43,14 +43,17 @@ self.addEventListener('activate', event => {
   );
 });
 
-// NETWORK FIRST:
-// Busca primero lo nuevo en internet. Si hay internet, lo muestra y actualiza la copia.
-// Si no hay señal o está en modo avión, responde desde la memoria offline.
+// NETWORK FIRST
 self.addEventListener('fetch', event => {
+  // Solo procesar peticiones GET dentro de tu propio origen (ignora Google Apps Script y extensiones)
+  if (event.request.method !== 'GET' || !event.request.url.startsWith(self.location.origin)) {
+    return;
+  }
+
   event.respondWith(
     fetch(event.request)
       .then(response => {
-        if (response && response.status === 200 && event.request.method === 'GET') {
+        if (response && response.status === 200) {
           const responseClone = response.clone();
           caches.open(CACHE_NAME).then(cache => {
             cache.put(event.request, responseClone);
