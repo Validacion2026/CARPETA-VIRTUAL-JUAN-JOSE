@@ -1,4 +1,4 @@
-const CACHE_NAME = 'carpeta-virtual-v6'; // <-- Recuerda subir la versión
+const CACHE_NAME = 'carpeta-virtual-v7'; // <-- Recuerda subir la versión
 
 const ARCHIVOS_OFFLINE = [
   './',
